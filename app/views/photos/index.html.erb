@@ -3,7 +3,6 @@
 <table>
   <tr>
     <th>Image</th>
-    <th>Timestamps</th>
     <th></th>
     <th></th>
     <th></th>
@@ -12,7 +11,6 @@
 <% @photos.each do |photo| %>
   <tr>
     <td><%= photo.image %></td>
-    <td><%= photo.timestamps %></td>
     <td><%= link_to 'Show', photo %></td>
     <td><%= link_to 'Edit', edit_photo_path(photo) %></td>
     <td><%= link_to 'Destroy', photo, method: :delete, data: { confirm: 'Are you sure?' } %></td>

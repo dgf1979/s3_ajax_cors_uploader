@@ -1,14 +1,29 @@
 <p id="notice"><%= notice %></p>
-
 <p>
-  <b>Image:</b>
+  <h6>Thumb</h6>
+  <%= image_tag(@photo.image.thumb)%>
+</p>
+<p>
+  <h6>Search Results</h6>
+  <%= image_tag(@photo.image.search_results)%>
+</p>
+<p>
+  <h6>Large</h6>
+  <%= image_tag(@photo.image.large)%>
+</p>
+<p>
+  <h6>Feature</h6>
+  <%= image_tag(@photo.image.feature)%>
+</p>
+<p>
+  <h6>Inline</h6>
+  <%= image_tag(@photo.image.inline)%>
+</p>
+<p>
+  <b>File name:</b>
   <%= @photo.image %>
 </p>
 
-<p>
-  <b>Timestamps:</b>
-  <%= @photo.timestamps %>
-</p>
 
 
 <%= link_to 'Edit', edit_photo_path(@photo) %> |
