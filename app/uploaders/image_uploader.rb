@@ -5,7 +5,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   if ENV['AWS_ACCESS_KEY_ID']
     storage :fog
   else
-    storage :file
+    raise "error: AWS_ACCESS_KEY_ID not found in ENV"
   end
 
   def store_dir
