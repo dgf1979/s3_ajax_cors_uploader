@@ -41,6 +41,8 @@ class PhotosController < ApplicationController
     @s3_postData = s3_bucket.presigned_post(:key_starts_with => 'demo_uploads/')
     @s3_postData.content_type_starts_with('image/')
     @s3_postData.acl('public-read')
+    @s3_postData.key('demo_uploads/${filename}')
+    @s3_postData.content_type('image/')
 
     respond_to do |format|
       format.html # new.html.erb
