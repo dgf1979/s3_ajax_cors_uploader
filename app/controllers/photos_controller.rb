@@ -26,6 +26,22 @@ class PhotosController < ApplicationController
   def new
     @photo = Photo.new
 
+    if !(ENV['AWS_BUCKET'] && ENV['AWS_SECRET_ACCESS_KEY'] && ENV['AWS_ACCESS_KEY_ID'] && ENV['AWS_REGION']) then
+      raise Exception.new("Missing AWS or S3 Bucket config in ENV")
+    end
+
+    s3_resource = Aws::S3::Resource.new
+
+    if (s3_resource.bucket(ENV['AWS_BUCKET'])) then
+      s3_bucket = s3_resource.bucket(ENV['AWS_BUCKET'])
+    else
+      raise Exception.new("Unable to contact S3 bucket named '#{ENV['AWS_BUCKET']}' in region '#{ENV['AWS_REGION']}'")
+    end
+
+    @s3_postData = s3_bucket.presigned_post(:key_starts_with => 'demo_uploads/')
+    @s3_postData.content_type_starts_with('image/')
+    @s3_postData.acl('public-read')
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @photo }

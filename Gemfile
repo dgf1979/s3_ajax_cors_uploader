@@ -15,6 +15,9 @@ gem 'fog'
 gem 'carrierwave'
 gem 'mini_magick'
 
+# AWS SDK (for Amazon S3 helpers)
+gem 'aws-sdk', '~> 2'
+
 group :assets do
   gem 'sass-rails', "~> 3.2.3"
   gem 'coffee-rails', "~> 3.2.1"
@@ -28,7 +31,7 @@ group :development, :test do
   gem 'launchy'
   gem 'pry-rails'
   gem 'with_model'
-  gem 'database_cleaner'  
+  gem 'database_cleaner'
 end
 
 group :production do
