@@ -1,0 +1,55 @@
+<style media="screen">
+
+</style>
+
+<div class="s3-ajax-uploader">
+  <div class="s3-ajax-uploader image-container">
+    <img src="" alt="" />
+  </div>
+  <div class="s3-ajax-uploader form">
+
+  </div>
+</div>
+
+<form class="AjaxImageUploadS3"  action="<%= @s3_postData.url %>" method="post" enctype="multipart/form-data">
+  <% @s3_postData.fields.each do |name, value| %>
+    <input type="hidden" name="<%= name %>" value="<%= value %>"/>
+  <% end %>
+  <input type="file"   name="file" /> <br /><br />
+  <input type="submit" name="submit" value="Upload to Amazon S3" />
+</form>
+
+<script type="text/javascript">
+
+  $.support.cors = true;
+  $(document).ready(function() {
+
+    $('form.AjaxImageUploadS3').submit(function(event) {
+      event.preventDefault();
+
+      // collect form data from form
+      var formData = new FormData($(this)[0]);
+
+      console.log("submitting image upload..")
+      var jqxhr = $.ajax({
+        url         : $(this).attr('action'),
+        type        : $(this).attr('method'),
+        contentType: false,
+        processData: false,
+        data        : formData})
+      .done(function( data, textStatus, jqXHR ) {
+        console.log('AJAX image upload done');
+        var image_path = decodeURIComponent(jqXHR.getResponseHeader('Location'));
+        console.log('URL to image: ' + image_path);
+      })
+      .fail(function( jqXHR, textStatus, errorThrown ) {
+        console.log('AJAX image upload error');
+      })
+      .always(function( jqXHR, textStatus, errorThrown ) {
+        console.log('AJAX image upload complete');
+      });
+      return false;
+    });
+  });
+
+</script>

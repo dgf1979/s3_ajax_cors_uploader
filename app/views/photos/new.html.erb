@@ -1,14 +1,5 @@
 <h1>New photo</h1>
 
-<form class="AjaxImageUploadS3" action="<%= @s3_postData.url %>" method="post" enctype="multipart/form-data">
-  <% @s3_postData.fields.each do |name, value| %>
-    <h4><%= name %></h4>
-    <input type="text" name="<%= name %>" value="<%= value %>"/>
-    <br />
-  <% end %>
-  <br>
-  <input type="file"   name="file" /> <br /><br />
-  <input type="submit" name="submit" value="Upload to Amazon S3" />
-</form>
+<%= render 'upload_ajax' %>
 
 <%= link_to 'Back', photos_path %>

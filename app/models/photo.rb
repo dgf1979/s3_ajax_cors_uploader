@@ -22,7 +22,7 @@ class Photo < ActiveRecord::Base
               allowed_headers: ["*"],
               allowed_methods: ["POST", "GET", "HEAD"],
               allowed_origins: ["http://*", "https://*"],
-              expose_headers: ["Host", "Access-Control-Allow-Origin"],
+              expose_headers: ["x-amz-request-id", "Access-Control-Allow-Origin", "Location"],
               max_age_seconds: 300,
             },
           ],
