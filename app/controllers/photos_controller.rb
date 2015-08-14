@@ -33,7 +33,8 @@ class PhotosController < ApplicationController
     s3_resource = Aws::S3::Resource.new
 
     if (s3_resource.bucket(ENV['AWS_BUCKET'])) then
-      s3_bucket = s3_resource.bucket(ENV['AWS_BUCKET'])
+      #s3_bucket = s3_resource.bucket(ENV['AWS_BUCKET'])
+      s3_bucket = s3_resource.bucket('cors-dev-test')
     else
       raise Exception.new("Unable to contact S3 bucket named '#{ENV['AWS_BUCKET']}' in region '#{ENV['AWS_REGION']}'")
     end

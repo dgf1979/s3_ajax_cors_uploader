@@ -1,26 +1,14 @@
 <h1>New photo</h1>
 
-<form action="<%= @s3_postData.url %>" method="post" enctype="multipart/form-data">
+<form class="AjaxImageUploadS3" action="<%= @s3_postData.url %>" method="post" enctype="multipart/form-data">
   <% @s3_postData.fields.each do |name, value| %>
     <h4><%= name %></h4>
     <input type="text" name="<%= name %>" value="<%= value %>"/>
     <br />
   <% end %>
-
   <br>
-
   <input type="file"   name="file" /> <br /><br />
   <input type="submit" name="submit" value="Upload to Amazon S3" />
 </form>
 
 <%= link_to 'Back', photos_path %>
-
-<div style="visibility: hidden;">
-  ACL<br /><input type="input" name="acl" value="<%= @s3_postData.fields['acl'] %>" /><br /><br />
-  Content Type<br /><input type="input"  name="Content-Type" value="image/" /><br /><br />
-  AWS Credential<br /><input type="text"   name="X-Amz-Credential" value="<%= @s3_postData.fields['x-amz-credential'] %>" /><br /><br />
-  Algorithm<br /><input type="text"   name="X-Amz-Algorithm" value="<%= @s3_postData.fields['x-amz-algorithm']%>" /><br /><br />
-  Date<br /><input type="text"   name="X-Amz-Date" value="<%= @s3_postData.fields['x-amz-date'] %>" /><br /><br />
-  Policy<br /><input type="input" name="Policy" value='<%= @s3_postData.fields['policy'] %>' /><br /><br />
-  Signature<br /><input type="input" name="X-Amz-Signature" value="<%= @s3_postData.fields['x-amz-signature'] %>" /><br /><br />
-</div>
