@@ -89,10 +89,12 @@
         data        : formData})
       .done(function( data, textStatus, jqXHR ) {
         console.log('AJAX image upload done');
+        var image_name = $("label[for='file']").text()
         var image_path = decodeURIComponent(jqXHR.getResponseHeader('Location'));
-        imgContainer.html('<img src="' + image_path + '" alt="' + $("label[for='file']").text() + '" />');
+        imgContainer.html('<img src="' + image_path + '" alt="' + image_name + '" />');
         console.log('URL to image: ' + image_path);
         $("#photo_remote_image_url").val(image_path);
+        $("#photo_image").val(image_name);
       })
       .fail(function( jqXHR, textStatus, errorThrown ) {
         alert('AJAX image upload error');
