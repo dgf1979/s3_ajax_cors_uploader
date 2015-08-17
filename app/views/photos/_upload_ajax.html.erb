@@ -81,6 +81,7 @@
       var imgContainer = $("div.s3-ajax-uploader.image-container");
       imgContainer.html('<img src="/assets/ajax-loader.gif" alt="loading.." />');
       console.log("submitting image upload..")
+      var startTimer = new Date();
       var jqxhr = $.ajax({
         url         : $(this).attr('action'),
         type        : $(this).attr('method'),
@@ -95,6 +96,8 @@
         console.log('URL to image: ' + image_path);
         $("#photo_remote_image_url").val(image_path);
         $("#photo_image").val(image_name);
+        var stopTimer = new Date();
+        console.log("upload took approx. " + (stopTimer - startTimer) / 1000 + " seconds.");
       })
       .fail(function( jqXHR, textStatus, errorThrown ) {
         alert('AJAX image upload error');
