@@ -1,31 +1,31 @@
 <style media="screen">
-span.btn-file {
-  position: relative;
-  overflow: hidden;
-}
-span.btn-file input[type=file] {
-  position: absolute;
-  top: 0;
-  right: 0;
-  min-width: 100%;
-  min-height: 100%;
-  font-size: 100px;
-  text-align: right;
-  filter: alpha(opacity=0);
-  opacity: 0;
-  outline: none;
-  background: white;
-  cursor: inherit;
-  display: block;
-}
-div.s3-ajax-uploader.image-container {
-  text-align: center;
-  padding: 1em;
-}
-div.s3-ajax-uploader.image-container img {
-  text-align: center;
-  max-width: 100%;
-}
+  span.btn-file {
+    position: relative;
+    overflow: hidden;
+  }
+  span.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+  }
+  div.s3-ajax-uploader.image-container {
+    text-align: center;
+    padding: 1em;
+  }
+  div.s3-ajax-uploader.image-container img {
+    text-align: center;
+    max-width: 100%;
+  }
 </style>
 
 <div class="s3-ajax-uploader container">
@@ -67,9 +67,9 @@ div.s3-ajax-uploader.image-container img {
     $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
       $("label[for='file']").text(label);
       if (label === '') {
-        $('input[type="submit"]').prop('disabled', true);
+        $('input[type="submit"][value="Upload Image"]').prop('disabled', true);
       } else {
-        $('input[type="submit"]').prop('disabled', false);
+        $('input[type="submit"][value="Upload Image"]').prop('disabled', false);
       }
     });
 
@@ -92,12 +92,15 @@ div.s3-ajax-uploader.image-container img {
         var image_path = decodeURIComponent(jqXHR.getResponseHeader('Location'));
         imgContainer.html('<img src="' + image_path + '" alt="' + $("label[for='file']").text() + '" />');
         console.log('URL to image: ' + image_path);
+        $("#photo_remote_image_url").val(image_path);
       })
       .fail(function( jqXHR, textStatus, errorThrown ) {
-        console.log('AJAX image upload error');
+        alert('AJAX image upload error');
+        console.log(textStatus + "\n" + errorThrown);
       })
       .always(function( jqXHR, textStatus, errorThrown ) {
         console.log('AJAX image upload complete');
+        $('input[type="submit"][value="Upload Image"]').prop('disabled', true);
       });
       return false;
     });

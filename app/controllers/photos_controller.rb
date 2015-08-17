@@ -30,20 +30,8 @@ class PhotosController < ApplicationController
       raise Exception.new("Missing AWS or S3 Bucket config in ENV")
     end
 
-    s3_resource = Aws::S3::Resource.new
-
-    if (s3_resource.bucket(ENV['AWS_BUCKET'])) then
-      #s3_bucket = s3_resource.bucket(ENV['AWS_BUCKET'])
-      s3_bucket = s3_resource.bucket('cors-dev-test')
-    else
-      raise Exception.new("Unable to contact S3 bucket named '#{ENV['AWS_BUCKET']}' in region '#{ENV['AWS_REGION']}'")
-    end
-
-    @s3_postData = s3_bucket.presigned_post(:key_starts_with => 'demo_uploads/')
-    @s3_postData.content_type_starts_with('image/')
-    @s3_postData.acl('public-read')
-    @s3_postData.key('demo_uploads/${filename}')
-    @s3_postData.content_type('image/')
+    test_upload = AjaxImageUploadS3.new('cors-dev-test')
+    @s3_postData = test_upload.post_data('demo_uploads')
 
     respond_to do |format|
       format.html # new.html.erb

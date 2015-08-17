@@ -1,6 +1,6 @@
-<%= form_for @photo, :html => {:multipart => true} do |f| %>
+<%= form_for @photo, html: { multipart: true } do |f| %>
   <%= render 'errors' %>
   Upload Photo
-  <%= f.file_field :image %>
+  <%= f.text_field :remote_image_url, readonly: true %>
   <%= f.submit %>
 <% end %>
