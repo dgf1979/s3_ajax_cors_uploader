@@ -47,3 +47,4 @@ staging:
 
 production:
   <<: *default_settings
+  developer_mode: true
