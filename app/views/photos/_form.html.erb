@@ -9,10 +9,8 @@
 
   <div data-ajax-img-upload-group='demo1' class='image-placeholder'>
     <img src="<%= @photo.image %>" alt="image placeholder"  />
+    <%= f.hidden_field :remote_image_url, 'data-ajax-img-upload-group' => 'demo1' %>
   </div>
-
-  Image URL:<%= f.text_field :remote_image_url, 'data-ajax-img-upload-group' => 'demo1' %>
-  <br><br>
 
   <button type="button" class="btn btn-info" data-ajax-img-upload-group='demo1'>Upload Image</button>
   <br><br>
@@ -29,7 +27,7 @@
     <img src="<%= @photo.image %>" alt="image placeholder"  />
   </div>
 
-  Image URL:<%= f.text_field :remote_image_url, 'data-ajax-img-upload-group' => 'demo2' %>
+  Image URL:<%= f.text_field :remote_image_url, { 'data-ajax-img-upload-group' => 'demo2', readonly: true } %>
   <br><br>
 
   <button type="button" class="btn btn-info" data-ajax-img-upload-group='demo2'>Upload Image</button>

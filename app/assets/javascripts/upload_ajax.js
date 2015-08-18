@@ -53,13 +53,15 @@ $(document).ready(function() {
       data        : formData})
     .done(function( data, textStatus, jqXHR ) {
       console.log('AJAX image upload done');
-      var image_name = $("label[for='file']").text()
+      var image_name = $('#s3-image-uploader-filename').val();
       var image_path = decodeURIComponent(jqXHR.getResponseHeader('Location'));
       imgContainerDiv.html('<img src="' + image_path + '" alt="' + image_name + '" />');
       console.log('URL to image: ' + image_path);
       imgUrlInput.val(image_path);
       var stopTimer = new Date();
       console.log("upload took approx. " + (stopTimer - startTimer) / 1000 + " seconds.");
+      // clear the uploader
+      $('#s3-image-uploader-filename').val("");
     })
     .fail(function( jqXHR, textStatus, errorThrown ) {
       alert('AJAX image upload error');

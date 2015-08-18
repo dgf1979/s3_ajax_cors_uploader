@@ -9,8 +9,8 @@
       </div>
       <div class="modal-body">
         <div class="s3-ajax-uploader form">
-          <form class="s3-ajax-uploader"  action="<%= @s3_postData.url %>" method="post" enctype="multipart/form-data">
-            <% @s3_postData.fields.each do |name, value| %>
+          <form class="s3-ajax-uploader"  action="<%= @s3_post_data.url %>" method="post" enctype="multipart/form-data">
+            <% @s3_post_data.fields.each do |name, value| %>
               <input type="hidden" name="<%= name %>" value="<%= value %>"/>
             <% end %>
             <input type="hidden" class="s3-ajax-uploader" id="upload-group">

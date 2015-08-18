@@ -26,12 +26,12 @@ class PhotosController < ApplicationController
   def new
     @photo = Photo.new
 
-    if !(ENV['AWS_BUCKET'] && ENV['AWS_SECRET_ACCESS_KEY'] && ENV['AWS_ACCESS_KEY_ID'] && ENV['AWS_REGION']) then
-      raise Exception.new("Missing AWS or S3 Bucket config in ENV")
-    end
-
     test_upload = AjaxImageUploadS3.new('cors-dev-test')
-    @s3_postData = test_upload.post_data('demo_uploads')
+    @s3_post_data = test_upload.post_data('demo_uploads')
+
+    # If ENV[AWS_BUCKET] is defined, passing no arguments to #post_data
+    # will attempt to use that value for the bucket, e.g.:
+    # @s3_post_data = test_upload.post_data
 
     respond_to do |format|
       format.html # new.html.erb
