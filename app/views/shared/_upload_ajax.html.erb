@@ -1,0 +1,37 @@
+<!-- Modal - render at bottom of page -->
+<div id="ajax-img-upload" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Upload Image</h4>
+      </div>
+      <div class="modal-body">
+        <div class="s3-ajax-uploader form">
+          <form class="s3-ajax-uploader"  action="<%= @s3_postData.url %>" method="post" enctype="multipart/form-data">
+            <% @s3_postData.fields.each do |name, value| %>
+              <input type="hidden" name="<%= name %>" value="<%= value %>"/>
+            <% end %>
+            <input type="hidden" class="s3-ajax-uploader" id="upload-group">
+            <div class="input-group">
+
+              <span class="input-group-btn">
+                <span class="btn btn-primary btn-file">
+                    Select Image <input type="file" name="file">
+                </span>
+              </span>
+
+              <input type="text" id="s3-image-uploader-filename" class="form-control s3-image-uploader" readonly>
+
+              <span class="input-group-btn">
+                <input type="submit" id="s3-image-uploader-submit-btn" class="btn btn-primary" name="submit" value="Upload Image" disabled="disabled" />
+              </span>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
