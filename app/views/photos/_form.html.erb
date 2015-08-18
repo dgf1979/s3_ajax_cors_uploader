@@ -4,13 +4,14 @@
   }
 </style>
 <h1>First Form</h1>
-<%= form_for @photo, html: { multipart: true } do |f| %>
+<%= form_for @photo, html: { multipart: true, id: 'form1', name: 'form1' } do |f| %>
   <%= render 'errors' %>
 
   <div data-ajax-img-upload-group='demo1' class='image-placeholder'>
     <img src="<%= @photo.image %>" alt="image placeholder"  />
-    <%= f.hidden_field :remote_image_url, 'data-ajax-img-upload-group' => 'demo1' %>
   </div>
+  
+  <%= f.hidden_field :remote_image_url, 'data-ajax-img-upload-group' => 'demo1' %>
 
   <button type="button" class="btn btn-info" data-ajax-img-upload-group='demo1'>Upload Image</button>
   <br><br>
@@ -20,7 +21,7 @@
 <% end %>
 
 <h1>Second Form</h1>
-<%= form_for @photo, html: { multipart: true } do |f| %>
+<%= form_for @photo, html: { multipart: true, id: 'form2', name: 'form2' } do |f| %>
   <%= render 'errors' %>
 
   <div data-ajax-img-upload-group='demo2' class='image-placeholder'>

@@ -49,6 +49,9 @@ class PhotosController < ApplicationController
   def create
     @photo = Photo.new(params[:photo])
 
+    test_upload = AjaxImageUploadS3.new('cors-dev-test')
+    @s3_post_data = test_upload.post_data('demo_uploads')
+
     respond_to do |format|
       if @photo.save
         format.html { redirect_to @photo, notice: 'Photo was successfully created.' }
