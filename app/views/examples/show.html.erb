@@ -8,7 +8,9 @@
 <h4>Existing (processed) Photos</h4>
 <div class="row">
   <% @example.photos.each do |photo| %>
-    <img src="<%= photo.image.thumb %>" alt="" />
+    <%= link_to(photo) do %>
+      <img src="<%= photo.image.thumb %>" alt="" />
+    <% end %>
   <% end %>
 </div>
 
