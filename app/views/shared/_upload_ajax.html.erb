@@ -8,30 +8,31 @@
         <h4 class="modal-title">Upload Image</h4>
       </div>
       <div class="modal-body">
-        <div class="s3-ajax-uploader form">
-          <form class="s3-ajax-uploader"  action="<%= @s3_post_data.url %>" method="post" enctype="multipart/form-data">
-            <% @s3_post_data.fields.each do |name, value| %>
-              <input type="hidden" name="<%= name %>" value="<%= value %>"/>
-            <% end %>
-            <input type="hidden" class="s3-ajax-uploader" id="upload-group">
-            <div class="input-group">
-
-              <span class="input-group-btn">
-                <span class="btn btn-primary btn-file">
-                    Select Image <input type="file" name="file">
-                </span>
+        <div class="s3-ajax-uploader">
+          <input type="hidden" class="s3-ajax-uploader" id="upload-group">
+          <div class="input-group">
+            <span class="input-group-btn">
+              <span class="btn btn-primary btn-file">
+                  Select Image(s) <input type="file" name="file" id="s3-ajax-html5-file-input-multiple" multiple>
               </span>
-
-              <input type="text" id="s3-image-uploader-filename" class="form-control s3-image-uploader" readonly>
-
-              <span class="input-group-btn">
-                <input type="submit" id="s3-image-uploader-submit-btn" class="btn btn-primary" name="submit" value="Upload Image" disabled="disabled" />
-              </span>
-
-            </div>
-          </form>
+            </span>
+            <input type="text" id="s3-image-uploader-filename" class="form-control s3-image-uploader" readonly>
+            <span class="input-group-btn">
+              <input type="button" id="s3-image-uploader-submit-btn" class="btn btn-primary" name="submit" value="Upload Image" disabled="disabled" />
+            </span>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<form class="s3-ajax-uploader"  action="<%= @s3_post_data.url %>" method="post" enctype="multipart/form-data">
+  <% @s3_post_data.fields.each do |name, value| %>
+    <input type="hidden" name="<%= name %>" value="<%= value %>"/>
+  <% end %>
+  <input type="file" name="file" id="s3-ajax-html5-file-input">
+</form>
+
+<script type="text/javascript" src="/assets/upload_ajax.js"></script>
+<link rel="stylesheet" href="/assets/upload_ajax.css" media="screen" title="no title" charset="utf-8">

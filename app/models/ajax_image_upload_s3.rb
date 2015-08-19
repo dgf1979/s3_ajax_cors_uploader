@@ -3,7 +3,7 @@ class AjaxImageUploadS3
   @@s3_buckets = []
   @s3_bucket = nil
 
-  def initialize(bucket_name=ENV['AWS_BUCKET'])
+  def initialize(bucket_name = ENV['AWS_BUCKET'])
     # if it already exists, use it.
     bucket_index = @@s3_buckets.find_index { |bucket| bucket.name == bucket_name }
     if bucket_index.nil?
@@ -11,7 +11,8 @@ class AjaxImageUploadS3
       unless ENV['AWS_SECRET_ACCESS_KEY'] &&
              ENV['AWS_ACCESS_KEY_ID'] &&
              ENV['AWS_REGION']
-        fail StandardError, Exception.new('Missing AWS region, key or secret in ENV')
+        fail StandardError,
+             Exception.new('Missing AWS region, key or secret in ENV')
       end
       # get the bucket from the arguments or ENV
       s3_resource = Aws::S3::Resource.new
@@ -26,8 +27,8 @@ class AjaxImageUploadS3
       # set the CORS policy on the bucket if the current one is no bueno
       unless aws_cors_policy_set?
         fail StandardError,
-             Exception.new("Missing CORS config on '#{bucket_name}'"\
-             " - run AjaxImageUploadS3.cors_config(['http://host.domain:port'])")
+             Exception.new("Missing CORS config on '#{bucket_name}' "\
+             "- run AjaxImageUploadS3.cors_config(['http://host.domain:port'])")
       end
       unless aws_cors_policy_valid?
         fail StandardError,
@@ -89,11 +90,13 @@ class AjaxImageUploadS3
                               allowed_headers: ['*'],
                               allowed_methods: %w(POST GET HEAD),
                               allowed_origins: allowed_origins,
-                              expose_headers: %w(x-amz-request-id Access-Control-Allow-Origin Location),
+                              expose_headers: %w(x-amz-request-id
+                                                 Access-Control-Allow-Origin
+                                                 Location),
                               max_age_seconds: 300 }] })
     else
       fail StandardError,
-           Exception.new("invalid URI(s) passed to CORS allowed_origins. "\
+           Exception.new('invalid URI(s) passed to CORS allowed_origins. '\
            "No policy created on bucket '#{@s3_bucket.bucket_name}'")
     end
   end
