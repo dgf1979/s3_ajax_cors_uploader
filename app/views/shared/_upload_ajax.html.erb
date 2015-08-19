@@ -27,9 +27,9 @@
   </div>
 </div>
 
-<form class="s3-ajax-uploader"  action="<%= @s3_post_data.url %>" method="post" enctype="multipart/form-data">
+<form class="s3-ajax-uploader" style="visibility: hidden;" action="<%= @s3_post_data.url %>" method="post" enctype="multipart/form-data">
   <% @s3_post_data.fields.each do |name, value| %>
-    <input type="hidden" name="<%= name %>" value="<%= value %>"/>
+    <input type="text" name="<%= name %>" value="<%= value %>"/>
   <% end %>
   <input type="file" name="file" id="s3-ajax-html5-file-input">
 </form>

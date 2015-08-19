@@ -47,6 +47,8 @@ class PhotosController < ApplicationController
   # POST /photos
   # POST /photos.json
   def create
+    binding.pry
+
     @photo = Photo.new(params[:photo])
 
     test_upload = AjaxImageUploadS3.new('cors-dev-test')

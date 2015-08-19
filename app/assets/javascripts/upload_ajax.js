@@ -50,14 +50,14 @@ $(document).ready(function() {
   function ajaxImgUpload(file, group) {
     var uploadForm = $('form.s3-ajax-uploader')[0];
     var imgContainerDiv = $("div[data-ajax-img-upload-group='" + group + "']");
-    var imgLoad = $('<img src="/assets/ajax-loader.gif" alt="loading.." />');
+    var imgLoad = $('<img src="/assets/ajax-loader.gif" alt="loading.." />' +
+      ' <span>' + file.name + '</span> <br><br>');
 
     imgContainerDiv.append(imgLoad);
 
     // collect form data from form
     var formData = new FormData(uploadForm);
     formData.set('file', file);
-    debugger;
 
     // set the image to a loading spinner
     console.log("submitting image upload..")
@@ -72,7 +72,7 @@ $(document).ready(function() {
       console.log('AJAX image upload done');
       var image_name = $('#s3-image-uploader-filename').val();
       var image_path = decodeURIComponent(jqXHR.getResponseHeader('Location'));
-      var imgTag = $('<img src="' + image_path + '" alt="' + file.name + '" />');
+      var imgTag = $('<img src="' + image_path + '" alt="' + file.name + '"/>');
       imgLoad.remove();
       imgContainerDiv.append(imgTag);
       console.log('URL to image: ' + image_path);
@@ -80,6 +80,14 @@ $(document).ready(function() {
       console.log("upload took approx. " + (stopTimer - startTimer) / 1000 + " seconds.");
       // clear the uploader
       $('#s3-image-uploader-filename').val("");
+      // clone the original ruby-generated remote_image_url, update the value and insert the clone
+      var remoteImageUrlInput = $('input[data-ajax-img-upload-group="' + group + '"]').filter(":first");
+      var imageInputElement = $("<input type='text' name='remote_image_urls[]' value='" + image_path + "'>");
+      imageInputElement.insertAfter(remoteImageUrlInput);
+      // var clone = remoteImageUrlInput.clone();
+      // clone.val(image_path);
+      // clone.attr('name', remoteImageUrlInput.attr('name') + '[]');
+      // clone.insertAfter(remoteImageUrlInput);
     })
     .fail(function( jqXHR, textStatus, errorThrown ) {
       alert('AJAX image upload error');

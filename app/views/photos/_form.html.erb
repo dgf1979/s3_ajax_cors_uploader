@@ -1,9 +1,9 @@
 <style media="screen">
   .image-placeholder img {
-    max-width: 400px;
+    max-height: 120px;
   }
 </style>
-<h1>First Form</h1>
+
 <%= form_for @photo, html: { multipart: true, id: 'form1', name: 'form1' } do |f| %>
   <%= render 'errors' %>
 
@@ -11,6 +11,7 @@
 
   <%= f.hidden_field :remote_image_url, 'data-ajax-img-upload-group' => 'demo1' %>
 
+  <br><br>
   <button type="button" class="btn btn-info" data-ajax-img-upload-group='demo1'>Upload Image</button>
   <br><br>
 
