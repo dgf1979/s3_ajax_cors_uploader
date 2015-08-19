@@ -82,7 +82,7 @@ $(document).ready(function() {
       $('#s3-image-uploader-filename').val("");
       // insert an element of a same-named array of images
       var imagePlaceholderDiv = $('div[data-ajax-img-upload-group="' + group + '"]');
-      var imageInputElement = $("<input type='text' name='remote_image_urls[]' value='" + image_path + "'>");
+      var imageInputElement = $("<input type='hidden' name='remote_image_urls[]' value='" + image_path + "'>");
       imageInputElement.insertAfter(imagePlaceholderDiv);
     })
     .fail(function( jqXHR, textStatus, errorThrown ) {

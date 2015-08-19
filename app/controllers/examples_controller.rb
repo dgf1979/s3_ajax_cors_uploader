@@ -46,13 +46,12 @@ class ExamplesController < ApplicationController
   # POST /examples.json
   def create
     @example = Example.new(params[:example])
-
-    params[:remote_image_urls].each do |url|
-      @example.photos.create({remote_image_url: url})
-    end
-
     respond_to do |format|
       if @example.save
+        image_urls = params[:remote_image_urls] || []
+        image_urls.each do |url|
+          @example.photos.create(remote_image_url: url)
+        end
         format.html { redirect_to @example, notice: 'Example was successfully created.' }
         format.json { render json: @example, status: :created, location: @example }
       else
@@ -67,8 +66,9 @@ class ExamplesController < ApplicationController
   def update
     @example = Example.find(params[:id])
 
-    params[:remote_image_urls].each do |url|
-      @example.photos.create({remote_image_url: url})
+    image_urls = params[:remote_image_urls] || []
+    image_urls.each do |url|
+      @example.photos.create(remote_image_url: url)
     end
 
     respond_to do |format|
