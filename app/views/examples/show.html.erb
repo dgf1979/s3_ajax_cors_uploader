@@ -1,0 +1,16 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @example.name %>
+</p>
+
+<h4>Existing (processed) Photos</h4>
+<div class="row">
+  <% @example.photos.each do |photo| %>
+    <img src="<%= photo.image.thumb %>" alt="" />
+  <% end %>
+</div>
+
+<%= link_to 'Edit', edit_example_path(@example) %> |
+<%= link_to 'Back', examples_path %>

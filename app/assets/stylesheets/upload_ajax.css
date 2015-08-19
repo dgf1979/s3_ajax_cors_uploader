@@ -17,3 +17,7 @@
   cursor: inherit;
   display: block;
 }
+.image-placeholder img {
+  max-height: 120px;
+  margin: 2px;
+}

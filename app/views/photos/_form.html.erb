@@ -5,7 +5,7 @@
 </style>
 
 <%= form_for @photo, html: { multipart: true, id: 'form1', name: 'form1' } do |f| %>
-  <%= render 'errors' %>
+  <%= render 'shared/errors', object: @photo %>
 
   <div data-ajax-img-upload-group='demo1' class='image-placeholder'></div>
 

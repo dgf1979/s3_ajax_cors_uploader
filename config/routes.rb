@@ -1,4 +1,6 @@
 ImgUpload::Application.routes.draw do
-  root :to => 'photos#index'
-  resources :photos
+  root to: 'examples#index'
+  resources :examples do
+    resources :photos
+  end
 end

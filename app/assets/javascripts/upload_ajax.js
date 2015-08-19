@@ -80,14 +80,10 @@ $(document).ready(function() {
       console.log("upload took approx. " + (stopTimer - startTimer) / 1000 + " seconds.");
       // clear the uploader
       $('#s3-image-uploader-filename').val("");
-      // clone the original ruby-generated remote_image_url, update the value and insert the clone
-      var remoteImageUrlInput = $('input[data-ajax-img-upload-group="' + group + '"]').filter(":first");
+      // insert an element of a same-named array of images
+      var imagePlaceholderDiv = $('div[data-ajax-img-upload-group="' + group + '"]');
       var imageInputElement = $("<input type='text' name='remote_image_urls[]' value='" + image_path + "'>");
-      imageInputElement.insertAfter(remoteImageUrlInput);
-      // var clone = remoteImageUrlInput.clone();
-      // clone.val(image_path);
-      // clone.attr('name', remoteImageUrlInput.attr('name') + '[]');
-      // clone.insertAfter(remoteImageUrlInput);
+      imageInputElement.insertAfter(imagePlaceholderDiv);
     })
     .fail(function( jqXHR, textStatus, errorThrown ) {
       alert('AJAX image upload error');
