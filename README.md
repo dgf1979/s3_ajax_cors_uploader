@@ -55,12 +55,20 @@ The following steps are anticipated to be required to move the prototype code in
   attr_accessible :remote_image_url
 ```
 
-4.) In you controller methods Create an instance of AjaxImageUploadS3, and generate post data by giving a path where the uploaded files will be saved in S3
+4a.) In you controller methods Create an instance of AjaxImageUploadS3, and generate post data by giving a path where the uploaded files will be saved in S3
 ```
   ex:
   upload_path = 'dev/temp/images'
   s3_uploader = AjaxImageUploadS3.new()
-  @s3_post_data = s3_uploader.post_data(upload_path)
+  @s3_post_data = s3_uploader.post_data(upload_path) (this exact instance variable name is expected in the _upload_ajax partial)
+```
+
+4b.) In the controller you will also need to collect the URL(s) from the param 'remote_image_urls', which is returned as an array of 0 or more URL's to S3 image locations - e.g.:
+```
+  image_urls = params[:remote_image_urls] || []
+  image_urls.each do |url|
+  @example.photos.create(remote_image_url: url)
+end
 ```
 See app/controllers/photos_controller.rb for example.
 
@@ -73,12 +81,11 @@ See app/photos/\_form.html.erb for example
 
 6.) Create:
   a.) button to trigger the modal
-  b.) div to contain the image
-  c.) an input (preferably hidden or read-only) that corresponds to the parent model's :remote_image_url attribute.
+  b.) div to contain the image(s) (this will also be used to target 'loading' spinners)
+
 Each of the above must have a custom data attribute that groups them as a single 'set' of elements; this is how the jQuery code know which elements are in the same group when more than one uploader is on a page. The value of the attribute can be text or numbers - it doesn't matter, as long as it is the same for each group of button/div/inputs that belong together, and unique from any other uploader groups of elements on the page.
 ```
   <div data-ajax-img-upload-group='demo1'><img src="<%= @model.image %>" /></div>
-  <%= f.hidden_field :remote_image_url, 'data-ajax-img-upload-group' => 'demo1' %>
   <button type="button" class="btn btn-info" data-ajax-img-upload-group='demo1'>Upload Image</button>
 ```
 See app/photos/\_form.html.erb for an example that includes two forms, each with its own uploader group (in this case the form is for the same model, which makes no sense in practice - it's only for demonstration purposes.)
