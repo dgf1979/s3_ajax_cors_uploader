@@ -3,7 +3,7 @@ class AjaxImageUploadS3
   @@s3_buckets = []
   @s3_bucket = nil
 
-  def initialize(bucket_name = ENV['AWS_BUCKET'])
+  def initialize(bucket_name=ENV['AWS_BUCKET'])
     # if it already exists, use it.
     bucket_index = @@s3_buckets.find_index { |bucket| bucket.name == bucket_name }
     if bucket_index.nil?
@@ -11,24 +11,17 @@ class AjaxImageUploadS3
       unless ENV['AWS_SECRET_ACCESS_KEY'] &&
              ENV['AWS_ACCESS_KEY_ID'] &&
              ENV['AWS_REGION']
-        fail StandardError,
-             Exception.new('Missing AWS region, key or secret in ENV')
+        fail StandardError, Exception.new('Missing AWS region, key or secret in ENV')
       end
-      # get the bucket from the arguments or ENV
-      s3_resource = Aws::S3::Resource.new
-      if s3_resource.bucket(bucket_name)
-        @s3_bucket = s3_resource.bucket(bucket_name)
-        @@s3_buckets.push(@s3_bucket)
-      else
-        fail StandardError,
-             Exception.new("Unable to mount S3 bucket named '#{bucket_name}';"\
-             ' check passed bucket name or AWS_BUCKET ENV.')
-      end
-      # set the CORS policy on the bucket if the current one is no bueno
+      # try to get the bucket and set it to @s3_bucket
+      @s3_bucket = AjaxImageUploadS3.get_bucket(bucket_name)
+      @@s3_buckets.push(@s3_bucket)
+      # check the CORS policy on the bucket - see if the current one is no bueno
       unless aws_cors_policy_set?
         fail StandardError,
-             Exception.new("Missing CORS config on '#{bucket_name}' "\
-             "- run AjaxImageUploadS3.cors_config(['http://host.domain:port'])")
+             Exception.new("Missing CORS config on '#{bucket_name}'"\
+             " - run AjaxImageUploadS3.cors_config(['http://host.domain:port'],"\
+             " '#{bucket_name}')")
       end
       unless aws_cors_policy_valid?
         fail StandardError,
@@ -74,43 +67,38 @@ class AjaxImageUploadS3
   end
 
   # set a CORS policy on the bucket
-  def self.cors_config(origins)
-    allowed_origins = []
-    if origins.class == 'Array'
-      origin.each do |origin|
-        allowed_origins.push(origin) if valid_origin(origins)
-      end
-    elsif origins.class == 'String'
-      allowed_origins.push(origins) if valid_origin(origins)
-    end
+  def self.cors_config(origins, bucket_name)
 
-    if allowed_origins.length > 0
-      @s3_bucket.cors.put(cors_configuration: {
+    s3_bucket = get_bucket(bucket_name)
+
+    if origins.length > 0
+      s3_bucket.cors.put(cors_configuration: {
                             cors_rules: [{
                               allowed_headers: ['*'],
                               allowed_methods: %w(POST GET HEAD),
-                              allowed_origins: allowed_origins,
-                              expose_headers: %w(x-amz-request-id
-                                                 Access-Control-Allow-Origin
-                                                 Location),
+                              allowed_origins: origins,
+                              expose_headers: %w(x-amz-request-id Access-Control-Allow-Origin Location),
                               max_age_seconds: 300 }] })
     else
       fail StandardError,
-           Exception.new('invalid URI(s) passed to CORS allowed_origins. '\
-           "No policy created on bucket '#{@s3_bucket.bucket_name}'")
+           Exception.new("invalid URI(s) passed to CORS allowed_origins. "\
+           "No policy created on bucket '#{bucket_name}'")
     end
   end
 
   private
 
-  def valid_origin(host)
-    host = URI.parse
-    if host.scheme == 'http' || host.scheme == 'https'
-      return true
+  def self.get_bucket(bucket_name)
+    # get the bucket from the arguments
+    s3_resource = Aws::S3::Resource.new
+    if s3_resource.bucket(bucket_name)
+      return s3_resource.bucket(bucket_name)
     else
-      return false
+      fail StandardError,
+           Exception.new("Unable to mount S3 bucket named '#{bucket_name}';"\
+           ' check passed bucket name or AWS_BUCKET ENV.')
     end
-  rescue URI::InvalidURIError
-    return false
+    nil
   end
+
 end

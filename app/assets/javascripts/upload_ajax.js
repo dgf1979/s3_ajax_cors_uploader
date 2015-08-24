@@ -50,10 +50,11 @@ $(document).ready(function() {
   function ajaxImgUpload(file, group) {
     var uploadForm = $('form.s3-ajax-uploader')[0];
     var imgContainerDiv = $("div[data-ajax-img-upload-group='" + group + "']");
-    var imgLoad = $('<img src="/assets/ajax-loader.gif" alt="loading.." />' +
-      ' <span>' + file.name + '</span> <br><br>');
-
-    imgContainerDiv.append(imgLoad);
+    var imgLoad = $('<div style="display: inline-block; text-align: center; padding: 1em;">' +
+      '<img src="/assets/ajax-loader.gif" alt="loading.." style="width: auto; height: auto;" />' +
+      ' <h4>' + file.name + '</h4></div>');
+    console.log('Append image to element: ' + imgContainerDiv.html());
+    imgContainerDiv.prepend(imgLoad);
 
     // collect form data from form
     var formData = new FormData(uploadForm);
@@ -72,9 +73,14 @@ $(document).ready(function() {
       console.log('AJAX image upload done');
       var image_name = $('#s3-image-uploader-filename').val();
       var image_path = decodeURIComponent(jqXHR.getResponseHeader('Location'));
-      var imgTag = $('<img src="' + image_path + '" alt="' + file.name + '"/>');
+      // var imgTag = $('<img src="' + image_path + '" alt="' + file.name + '"/>');
+      var imgTag = $('<div class="pending-s3-upload">' +
+                        '<img src="' + image_path + '" alt="' + file.name + '">' +
+                        '<div></div>' +
+                        '<h1>+ADD</h1>' +
+                      '</div>');
       imgLoad.remove();
-      imgContainerDiv.append(imgTag);
+      imgContainerDiv.prepend(imgTag);
       console.log('URL to image: ' + image_path);
       var stopTimer = new Date();
       console.log("upload took approx. " + (stopTimer - startTimer) / 1000 + " seconds.");
